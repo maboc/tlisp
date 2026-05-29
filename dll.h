@@ -1,3 +1,6 @@
+#ifndef _DLL_
+#define _DLL_
+
 #include <stddef.h>
 
 struct dll {
@@ -8,4 +11,6 @@ struct dll {
 
 struct dll * first(struct dll *);
 struct dll * last(struct dll *);
+
+#endif
 
