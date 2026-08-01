@@ -31,9 +31,30 @@ void verwijder_waarde(struct waarde_type * in_val){
 }
 
 struct waarde_type * interpret(struct waarde_type * in_val){
+  struct waarde_type * ret_val;
+  
   laat_waarde_zien(in_val);
 
-  
+  /*als de waarde een integer is dan kunnen we meteen terug geven*/
+  if(in_val->soort==0){
+    ret_val=creeer_waarde(0, in_val->i, in_val->s);
+  } else if (in_val->soort==1) {
+    char * sp; /*start pointer*/
+    char * ep; /*end pointer*/
+    char * wp; /*work pointer*/
+    int counter;
+
+    sp=in_val->s;
+    wp=sp;
+
+    while(wp!=NULL){
+      printf("%c\n", wp);
+      wp++;
+    }
+    ret_val=creeer_waarde(1,0,"gelukt");
+  }
+
+  return ret_val;
 }
 
 void laat_waarde_zien(struct waarde_type * in_val){
@@ -77,7 +98,8 @@ int main(int argc, char ** argv){
   in_val=creeer_waarde(1, 0, arg1);
   
   ret_val=interpret(in_val);
-  
+
+  laat_waarde_zien(in_val);
   
   verwijder_waarde(in_val);
   
