@@ -34,6 +34,7 @@ int main(int argc, char ** argv){
     arg1=strncpy(arg1, argv[1], strlen(argv[1])+1);  
   }
   printf("arg              :%s\n", arg1);
+  
   free(arg1);
   
   return 0;
