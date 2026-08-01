@@ -6,8 +6,15 @@
 #include <string.h>
 
 struct waarde_type{
+  int soort; /* 0 : integer 1 : string 2 : error (?)) */
   int i;
   char * s;
 };
+
+
+struct waarde_type * creeer_waarde(int, int, char *);
+struct waarde_type * interpret(struct waarde_type *);
+void laat_waarde_zien(struct waarde_type *);
+void verwijder_waarde(struct waarde_type *);
 
 #endif

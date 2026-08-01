@@ -1,25 +1,55 @@
 #include "tlisp.h"
 
-int main(int argc, char ** argv){
-  struct waarde_type * waarde;
-  char * arg1;
-  
-  waarde=malloc(sizeof(struct waarde_type));
-  waarde->s=NULL;
-  waarde->s=malloc(strlen("hallo daar"));
-  bzero(waarde->s, strlen("hallo daar"));
-  waarde->s=strncpy(waarde->s, "hallo daar", strlen("hallo daar"));
+struct waarde_type * creeer_waarde(int soort, int n, char * s){
+  struct waarde_type * tmp;
 
+  tmp=malloc(sizeof(struct waarde_type));
+  tmp->soort=soort;
+  if (soort==0){
+    tmp->i=n;
+  } else if (n==1){
+    tmp->s=malloc(strlen(s)+1);
+    bzero(tmp->s, strlen(s)+1);
+    tmp->s=strncpy(tmp->s, s, strlen(s));
+  } else {
+    tmp->i=n;
+    tmp->s=malloc(strlen(s)+1);
+    bzero(tmp->s, strlen(s)+1);
+    tmp->s=strncpy(tmp->s, s, strlen(s));
+  }
+
+  return tmp;
+}
+
+void verwijder_waarde(struct waarde_type * in_val){
+  if(in_val->soort==1){
+    free(in_val);
+  } else {
+    free(in_val->s);
+    free(in_val);
+  }
+}
+
+struct waarde_type * interpret(struct waarde_type * in_val){
+  laat_waarde_zien(in_val);
+
+  
+}
+
+void laat_waarde_zien(struct waarde_type * in_val){
+  printf("soort  : %i\n", in_val->soort);
+  printf("int    : %i\n", in_val->i);
+  printf("string : %s\n", in_val->s);
+
+  return;
+}
+
+int main(int argc, char ** argv){
+  char * arg1;
+  struct waarde_type * in_val;
+  struct waarde_type * ret_val;
   
   printf("tlisp\n");
-
-  waarde->i=10;
-
-  printf("waarde (integer) :%i\n", waarde->i);
-  printf("waarde (string)  :%s\n", waarde->s);
-
-  free(waarde->s);
-  free(waarde);
 
   printf("Argc             :%i\n", argc);
   if(argc<2){
@@ -39,9 +69,17 @@ int main(int argc, char ** argv){
     Voor nu ga ik er van uit dat alle input helemaal pico bello in elkaar steekt
     Later kan er wel een soort input-schoonmaak actie gemaakt
   */
+
+  /*
+    Dan nu maar interpreteren
+  */
+
+  in_val=creeer_waarde(1, 0, arg1);
+  
+  ret_val=interpret(in_val);
   
   
-  free(arg1);
+  verwijder_waarde(in_val);
   
   return 0;
 }
