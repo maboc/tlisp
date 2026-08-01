@@ -2,7 +2,8 @@
 
 int main(int argc, char ** argv){
   struct waarde_type * waarde;
-
+  char * arg1;
+  
   waarde=malloc(sizeof(struct waarde_type));
   waarde->s=NULL;
   waarde->s=malloc(strlen("hallo daar"));
@@ -20,7 +21,20 @@ int main(int argc, char ** argv){
   free(waarde->s);
   free(waarde);
 
-  
+  printf("Argc             :%i\n", argc);
+  if(argc<2){
+    printf("Melding          :Dan bedenk ik zelf wel iets\n");
+    arg1=malloc(strlen("(* (+ 10 1) (- 10 1))"));
+    bzero(arg1, strlen("(* (+ 10 1) (- 10 1))"));
+    arg1=strncpy(arg1, "(* (+ 10 1) (- 10 1))", strlen("(* (+ 10 1) (- 10 1))"));
+  } else {
 
+    arg1=malloc(strlen(argv[1])+1);
+    bzero(arg1, strlen(argv[1])+1);
+    arg1=strncpy(arg1, argv[1], strlen(argv[1])+1);  
+  }
+  printf("arg              :%s\n", arg1);
+  free(arg1);
+  
   return 0;
 }
