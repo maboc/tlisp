@@ -30,7 +30,33 @@ void verwijder_waarde(struct waarde_type * in_val){
   }
 }
 
-struct waarde_type * interpret(struct waarde_type * in_val){
+struct waarde_type * gebalanceerd(struct waarde_type * in_val){
+  char * sp; /*start pointer*/
+  char * ep; /*end pointer*/
+  char * wp; /*work pointer*/
+  int counter=0;
+  struct waarde_type * ret_val;
+    
+  sp=in_val->s;
+  wp=sp;
+
+  while(*wp!='\0'){
+
+    if (strncmp(wp, "(", 1)==0) counter++;
+    if (strncmp(wp, ")", 1)==0) counter--;
+    printf("%s  :  %i\n", wp, counter);
+      
+    wp++;
+  }
+
+  if(counter==0){
+    ret_val=creeer_waarde(0,0,NULL);   // 0: gelukt
+  } else {
+    ret_val=creeer_waarde(0,1,NULL); // 1: niet gelukt
+  }
+}
+
+struct waarde_type * evaluate(struct waarde_type * in_val){
   struct waarde_type * ret_val;
   
   laat_waarde_zien(in_val);
@@ -39,22 +65,22 @@ struct waarde_type * interpret(struct waarde_type * in_val){
   if(in_val->soort==0){
     ret_val=creeer_waarde(0, in_val->i, in_val->s);
   } else if (in_val->soort==1) {
-    char * sp; /*start pointer*/
-    char * ep; /*end pointer*/
-    char * wp; /*work pointer*/
-    int counter;
+    /* de waarde is niet integer, dan moeten we even verder kijken...
+       Als het een verder onbekende string is dan is het een string, anders is het een functie
+    */
 
-    sp=in_val->s;
-    wp=sp;
+    
+    struct waarde_type * tmp=gebalanceerd(in_val);
 
-    while(wp!=NULL){
-      printf("%c\n", wp);
-      wp++;
+    if (tmp->i==0){
+      ret_val=creeer_waarde(1,0,"geluk");
+    } else { 
+      ret_val=creeer_waarde(1,0,"niet gelukt");
     }
-    ret_val=creeer_waarde(1,0,"gelukt");
+    
+    verwijder_waarde(tmp);
   }
-
-  return ret_val;
+    return ret_val;
 }
 
 void laat_waarde_zien(struct waarde_type * in_val){
@@ -97,10 +123,11 @@ int main(int argc, char ** argv){
 
   in_val=creeer_waarde(1, 0, arg1);
   
-  ret_val=interpret(in_val);
+  ret_val=evaluate(in_val);
 
-  laat_waarde_zien(in_val);
-  
+  laat_waarde_zien(ret_val);
+
+  verwijder_waarde(ret_val);
   verwijder_waarde(in_val);
   
   return 0;

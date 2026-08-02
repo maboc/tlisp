@@ -13,8 +13,9 @@ struct waarde_type{
 
 
 struct waarde_type * creeer_waarde(int, int, char *);
-struct waarde_type * interpret(struct waarde_type *);
+struct waarde_type * evaluate(struct waarde_type *);
 void laat_waarde_zien(struct waarde_type *);
 void verwijder_waarde(struct waarde_type *);
+struct waarde_type * gebalanceerd(struct waarde_type *);
 
 #endif
